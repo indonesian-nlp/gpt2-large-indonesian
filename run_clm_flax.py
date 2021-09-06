@@ -633,7 +633,7 @@ def main():
                     write_train_metric(summary_writer, train_metrics, train_time, cur_step)
                 if jax.process_index() == 0:
                     print(f"### Train - index: {jax.process_index()}, has_tensorboard {has_tensorboard}")
-                    wandb.log({"train_loss": train_metric['loss'].mean(), "learning_rate": train_metric['learning_rate'].mean()}, step=cur_step)
+                    wandb.log({"train_loss": train_metric['loss'].mean(), "train_learning_rate": train_metric['learning_rate'].mean()}, step=cur_step)
 
 
                 epochs.write(
@@ -673,7 +673,7 @@ def main():
                     write_eval_metric(summary_writer, eval_metrics, cur_step)
                 if jax.process_index() == 0:
                     print(f"### Eval - index: {jax.process_index()}, has_tensorboard {has_tensorboard}")
-                    wandb.log({"eval_los": eval_metrics['loss'], "perplexity": eval_metrics["perplexity"]}, step=cur_step)
+                    wandb.log({"eval_loss": eval_metrics['loss'], "eval_perplexity": eval_metrics["perplexity"]}, step=cur_step)
 
             if cur_step % training_args.save_steps == 0 and cur_step > 0:
                 # save checkpoint after each epoch and push checkpoint to the hub
